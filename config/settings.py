@@ -81,7 +81,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Segurança em produção
 if not DEBUG:
-    SECURE_SSL_REDIRECT = False  # Ativar se usar HTTPS
+    SECURE_SSL_REDIRECT = True  # Render fornece HTTPS
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
