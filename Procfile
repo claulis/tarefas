@@ -1,0 +1,1 @@
+web: gunicorn tarefas.tarefas.wsgi:application --log-file -
