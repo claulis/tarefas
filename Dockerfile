@@ -42,12 +42,5 @@ USER appuser
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/admin/').read()" || exit 1
 
-# Executar aplicação
-CMD gunicorn config.wsgi:application \
-    --bind 0.0.0.0:${PORT} \
-    --workers 4 \
-    --worker-class sync \
-    --max-requests 1000 \
-    --timeout 60 \
-    --access-logfile - \
-    --error-logfile -
+# Executar aplicação via start.sh (detecção WSGI automática)
+CMD ["bash", "start.sh"]
