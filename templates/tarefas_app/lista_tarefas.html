@@ -30,25 +30,36 @@
             <ul class="list-group list-group-flush">
                 {% for t in tarefas %}
                 <li class="list-group-item {% if t.prazo_vencido %}vencida{% endif %}">
-                    <div class="d-flex align-items-center">
-                        <form method="POST" action="{% url 'toggle_concluida' t.pk %}" class="me-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <!-- Checkbox -->
+                        <form method="POST" action="{% url 'toggle_concluida' t.pk %}" class="flex-shrink-0" style="margin: 0;">
                             {% csrf_token %}
-                            <input type="checkbox" class="btn-check" id="c{{ t.pk }}" {% if t.concluida %}checked{% endif %}>
-                            <label class="btn btn-outline-success" for="c{{ t.pk }}"></label>
+                            <input type="checkbox" class="form-check-input" id="c{{ t.pk }}" 
+                                   {% if t.concluida %}checked{% endif %} 
+                                   onchange="this.form.submit()"
+                                   style="width: 20px; height: 20px; cursor: pointer;">
                         </form>
+                        
+                        <!-- Conteúdo da Tarefa -->
                         <div class="flex-grow-1 {% if t.concluida %}task-done{% endif %}">
                             <strong>{{ t.titulo }}</strong>
                             {% if t.prazo %}
                             <small class="d-block text-muted">
-                                Prazo: {{ t.prazo|date:"d/m/Y" }}
+                                📅 Prazo: {{ t.prazo|date:"d/m/Y" }}
                                 {% if t.prazo_vencido %} <span class="text-danger fw-bold">(VENCIDA)</span>{% endif %}
                             </small>
                             {% endif %}
                         </div>
+                        
+                        <!-- Botão de Deletar -->
                         <form method="POST" action="{% url 'deletar_tarefa' t.pk %}"
-                              onsubmit="return confirm('Excluir?');">
+                              onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');"
+                              class="flex-shrink-0"
+                              style="margin: 0;">
                             {% csrf_token %}
-                            <button class="btn btn-sm btn-outline-danger"></button>
+                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Deletar tarefa">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </form>
                     </div>
                 </li>
